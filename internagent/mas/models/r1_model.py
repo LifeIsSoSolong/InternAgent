@@ -111,7 +111,10 @@ class R1Model(BaseModel):
             )
             
             response_text = response.choices[0].message.content
-            think_text, answer_text = response_text.split("</think>\n\n", 1)
+            try:
+                think_text, answer_text = response_text.split("</think>\n\n", 1)
+            except:
+                think_text, answer_text = response_text.split("</think>\n", 1)
             return answer_text
         except Exception as e:
             logger.error(f"Error generating response from OpenAI: {e}")
@@ -155,7 +158,10 @@ class R1Model(BaseModel):
             )
             
             response_text = response.choices[0].message.content
-            think_text, answer_text = response_text.split("</think>\n\n", 1)
+            try:
+                think_text, answer_text = response_text.split("</think>\n\n", 1)
+            except:
+                think_text, answer_text = response_text.split("</think>\n", 1)
             return json.loads(answer_text)
         except json.JSONDecodeError as e:
             logger.error(f"Failed to decode JSON response: {e}")
